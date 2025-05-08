@@ -1,10 +1,16 @@
-
 import { User, Order } from "@/types/user";
-import { v4 as uuidv4 } from "uuid";
 
 // Эмуляция "базы данных" с помощью localStorage
-const USERS_KEY = 'food-delivery-users';
-const CURRENT_USER_KEY = 'food-delivery-current-user';
+const USERS_KEY = "food-delivery-users";
+const CURRENT_USER_KEY = "food-delivery-current-user";
+
+// Простая функция для генерации ID без зависимости от uuid
+const generateId = () => {
+  return (
+    Math.random().toString(36).substring(2, 15) +
+    Math.random().toString(36).substring(2, 15)
+  );
+};
 
 // Получение всех пользователей
 export const getUsers = (): Record<string, User & { password: string }> => {
@@ -13,7 +19,9 @@ export const getUsers = (): Record<string, User & { password: string }> => {
 };
 
 // Сохранение всех пользователей
-export const saveUsers = (users: Record<string, User & { password: string }>) => {
+export const saveUsers = (
+  users: Record<string, User & { password: string }>,
+) => {
   localStorage.setItem(USERS_KEY, JSON.stringify(users));
 };
 
@@ -21,11 +29,11 @@ export const saveUsers = (users: Record<string, User & { password: string }>) =>
 export const getCurrentUser = (): User | null => {
   const currentUserId = localStorage.getItem(CURRENT_USER_KEY);
   if (!currentUserId) return null;
-  
+
   const users = getUsers();
   const user = users[currentUserId];
   if (!user) return null;
-  
+
   // Удаляем пароль из объекта пользователя перед возвратом
   const { password, ...userWithoutPassword } = user;
   return userWithoutPassword;
@@ -41,23 +49,27 @@ export const setCurrentUser = (userId: string | null) => {
 };
 
 // Регистрация нового пользователя
-export const registerUser = (name: string, email: string, password: string): boolean => {
+export const registerUser = (
+  name: string,
+  email: string,
+  password: string,
+): boolean => {
   const users = getUsers();
-  
+
   // Проверяем, существует ли пользователь с таким email
-  const userExists = Object.values(users).some(user => user.email === email);
+  const userExists = Object.values(users).some((user) => user.email === email);
   if (userExists) return false;
-  
-  const userId = uuidv4();
+
+  const userId = generateId();
   users[userId] = {
     id: userId,
     name,
     email,
     password, // В реальном приложении пароль должен быть хешированным!
     favorites: [],
-    orders: []
+    orders: [],
   };
-  
+
   saveUsers(users);
   setCurrentUser(userId);
   return true;
@@ -66,13 +78,13 @@ export const registerUser = (name: string, email: string, password: string): boo
 // Вход пользователя
 export const loginUser = (email: string, password: string): boolean => {
   const users = getUsers();
-  
-  const foundUser = Object.entries(users).find(([_, user]) => 
-    user.email === email && user.password === password
+
+  const foundUser = Object.entries(users).find(
+    ([_, user]) => user.email === email && user.password === password,
   );
-  
+
   if (!foundUser) return false;
-  
+
   setCurrentUser(foundUser[0]);
   return true;
 };
@@ -86,45 +98,50 @@ export const logoutUser = () => {
 export const updateUserData = (userData: Partial<User>): User | null => {
   const currentUserId = localStorage.getItem(CURRENT_USER_KEY);
   if (!currentUserId) return null;
-  
+
   const users = getUsers();
   if (!users[currentUserId]) return null;
-  
+
   users[currentUserId] = {
     ...users[currentUserId],
-    ...userData
+    ...userData,
   };
-  
+
   saveUsers(users);
-  
+
   // Возвращаем обновленные данные пользователя
   const { password, ...userWithoutPassword } = users[currentUserId];
   return userWithoutPassword;
 };
 
 // Добавление нового заказа
-export const addUserOrder = (orderData: Omit<Order, 'id' | 'date' | 'status'>): User | null => {
+export const addUserOrder = (
+  orderData: Omit<Order, "id" | "date" | "status">,
+): User | null => {
   const currentUserId = localStorage.getItem(CURRENT_USER_KEY);
   if (!currentUserId) return null;
-  
+
   const users = getUsers();
   if (!users[currentUserId]) return null;
-  
+
   const newOrder: Order = {
-    id: uuidv4(),
+    id: generateId(),
     date: new Date().toISOString(),
-    status: 'pending',
-    ...orderData
+    status: "pending",
+    ...orderData,
   };
-  
+
   if (!users[currentUserId].orders) {
     users[currentUserId].orders = [];
   }
-  
-  users[currentUserId].orders = [newOrder, ...(users[currentUserId].orders || [])];
-  
+
+  users[currentUserId].orders = [
+    newOrder,
+    ...(users[currentUserId].orders || []),
+  ];
+
   saveUsers(users);
-  
+
   // Возвращаем обновленные данные пользователя
   const { password, ...userWithoutPassword } = users[currentUserId];
   return userWithoutPassword;
