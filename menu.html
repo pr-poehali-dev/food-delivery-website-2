@@ -4,13 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Вкусные Истории - Доставка еды</title>
+    <title>Меню - Вкусные Истории</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-    <meta name="pp-name" value="food-delivery-website-2">
-      <script src="https://cdn.poehali.dev/intertnal/js/pp-min-2.js"></script>
-  </head>
+</head>
 <body>
     <header class="header">
         <div class="container">
@@ -19,8 +17,8 @@
                 
                 <nav class="main-nav">
                     <ul>
-                        <li><a href="index.html" class="active">Главная</a></li>
-                        <li><a href="menu.html">Меню</a></li>
+                        <li><a href="index.html">Главная</a></li>
+                        <li><a href="menu.html" class="active">Меню</a></li>
                         <li><a href="account.html">Личный кабинет</a></li>
                     </ul>
                 </nav>
@@ -39,91 +37,24 @@
         </div>
     </header>
 
-    <section class="hero">
+    <section class="page-header">
         <div class="container">
-            <div class="hero-content">
-                <h1>Вкусные Истории</h1>
-                <p>Доставка вкуснейших блюд прямо к вашей двери</p>
-                <a href="#popular" class="btn btn-primary">Заказать сейчас</a>
-            </div>
+            <h1>Наше меню</h1>
         </div>
     </section>
 
-    <section id="popular" class="popular-dishes">
+    <section class="menu-section">
         <div class="container">
-            <h2>Популярные блюда</h2>
-            <div class="dishes-grid" id="popularDishes">
+            <div class="menu-categories">
+                <button class="category-btn active" data-category="all">Все блюда</button>
+                <button class="category-btn" data-category="pizza">Пицца</button>
+                <button class="category-btn" data-category="soup">Супы</button>
+                <button class="category-btn" data-category="pasta">Паста</button>
+                <button class="category-btn" data-category="sushi">Суши</button>
+            </div>
+            
+            <div class="dishes-grid" id="menuDishes">
                 <!-- Dishes will be loaded dynamically -->
-            </div>
-        </div>
-    </section>
-
-    <section class="features">
-        <div class="container">
-            <h2>Почему выбирают нас</h2>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-clock"></i>
-                    </div>
-                    <h3>Быстрая доставка</h3>
-                    <p>Доставим ваш заказ в течение 30-60 минут</p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-shopping-bag"></i>
-                    </div>
-                    <h3>Свежие продукты</h3>
-                    <p>Готовим из свежих продуктов высшего качества</p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-wallet"></i>
-                    </div>
-                    <h3>Удобная оплата</h3>
-                    <p>Принимаем наличные и безналичные платежи</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="order-section">
-        <div class="container">
-            <div class="order-card">
-                <div class="order-summary">
-                    <h2>Ваш заказ</h2>
-                    <div id="orderSummaryItems" class="order-items">
-                        <p id="emptyCartMessage">Ваша корзина пуста. Добавьте блюда, чтобы сделать заказ.</p>
-                    </div>
-                    <div class="order-total" id="orderTotal">
-                        <span>Итого:</span>
-                        <span>0 ₽</span>
-                    </div>
-                </div>
-                
-                <div class="order-form">
-                    <h3>Оформление заказа</h3>
-                    <form id="checkoutForm">
-                        <div class="form-group">
-                            <label for="name">Ваше имя</label>
-                            <input type="text" id="name" name="name" placeholder="Иван Иванов" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="phone">Телефон</label>
-                            <input type="tel" id="phone" name="phone" placeholder="+7 (999) 123-45-67" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="address">Адрес доставки</label>
-                            <input type="text" id="address" name="address" placeholder="ул. Примерная, д. 1, кв. 1" required>
-                        </div>
-                        
-                        <button type="submit" class="btn btn-primary btn-block">Оформить заказ</button>
-                    </form>
-                </div>
             </div>
         </div>
     </section>
@@ -198,6 +129,6 @@
     <script src="js/database.js"></script>
     <script src="js/auth.js"></script>
     <script src="js/cart.js"></script>
-    <script src="js/app.js"></script>
+    <script src="js/menu.js"></script>
 </body>
 </html>
